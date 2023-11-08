@@ -26,4 +26,9 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KaOsPizzaDL\KaOsPizzaDL.csproj" />
+    <ProjectReference Include="..\KaOsPizzaEL\KaOsPizzaEL.csproj" />
+  </ItemGroup>
+
 </Project>
