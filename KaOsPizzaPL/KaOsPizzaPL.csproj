@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\KaOsPizzaBL\KaOsPizzaBL.csproj" />
     <ProjectReference Include="..\KaOsPizzaDL\KaOsPizzaDL.csproj" />
   </ItemGroup>
 
