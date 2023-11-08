@@ -16,6 +16,8 @@ namespace KaOsPizzaEL.Entities
         public virtual T Id { get; set; }
         [Column(Order = 2)]
         public virtual DateTime CreatedDate { get; set; }
+        public virtual bool IsDeleted { get; set; }
+
 
     }
 }

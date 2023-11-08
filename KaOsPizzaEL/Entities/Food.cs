@@ -21,8 +21,6 @@ namespace KaOsPizzaEL.Entities
         [StringLength(500)]
         public string FoodMetarials { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         [ForeignKey("FoodTypeId")]
         public virtual FoodType FoodType { get; set; }
     }
