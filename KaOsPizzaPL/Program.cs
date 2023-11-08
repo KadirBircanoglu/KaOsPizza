@@ -1,4 +1,6 @@
+using AutoMapper.Extensions.ExpressionMapping;
 using KaOsPizzaDL.ContextInfo;
+using KaOsPizzaEL.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace KaOsPizzaPL
@@ -17,6 +19,16 @@ namespace KaOsPizzaPL
                 //core mvcde connection string appsetting.json dosyasindan alinir.
                 options.UseSqlServer(builder.Configuration.GetConnectionString("KaOsPizzaCon"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+
+
+            //automapper ayari 
+            builder.Services.AddAutoMapper(a =>
+            {
+                a.AddExpressionMapping();
+                //a.AddProfile(typeof(Maps));
+                //a.CreateMap<AppUser, ProfileViewModel>();
+
             });
 
 
