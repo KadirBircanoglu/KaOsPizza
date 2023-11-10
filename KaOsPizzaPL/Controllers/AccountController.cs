@@ -1,11 +1,39 @@
-﻿using KaOsPizzaEL.IdentityModels;
+﻿using AutoMapper;
+using KaOsPizzaBL.EmailSenderProcess;
+using KaOsPizzaEL;
+using KaOsPizzaEL.IdentityModels;
 using KaOsPizzaPL.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace KaOsPizzaPL.Controllers
 {
     public class AccountController : Controller
     {
+        private IMapper _mapper;
+        private ILogger<AccountController> _logger;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailManager _emailManager;
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
+
+        public AccountController(IMapper mapper, ILogger<AccountController> logger, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IEmailManager emailManager, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment, IPasswordHasher<AppUser> passwordHasher)
+        {
+            _mapper = mapper;
+            _logger = logger;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
+            _emailManager = emailManager;
+            _environment = environment;
+            _passwordHasher = passwordHasher;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -33,11 +61,11 @@ namespace KaOsPizzaPL.Controllers
                     return View(model);
                 }
 
-                //Aynı usernameden sistemde var mı? betul_aksan
-                var sameUserName = _userManager.FindByNameAsync(model.Username).Result;
-                if (sameUserName != null)
+                //Aynı mail adresinden sistemde var mı?
+                var sameMailAddress = _userManager.FindByNameAsync(model.Email).Result;
+                if (sameMailAddress != null)
                 {
-                    ModelState.AddModelError("", "Bu kullanıcı ismi zaten sistemde kayıtlıdır!");
+                    ModelState.AddModelError("", "Bu mail zaten sistemde kayıtlıdır!");
                     return View(model);
                 }
 
@@ -88,7 +116,7 @@ namespace KaOsPizzaPL.Controllers
                     var url = Url.Action("Activation", "Account", new { u = user.Id, t = encToken },
                         protocol: Request.Scheme);
 
-                    _emailManager.SendEmail(new EmailMessageModel()
+                    _emailManager.SendEmailGmail(new EmailMessageModel()
                     {
                         Subject = "TechStore Aktivasyon İşlemi",
                         Body = $"<b>Merhaba {user.Name} {user.Surname},</b><br/>" +

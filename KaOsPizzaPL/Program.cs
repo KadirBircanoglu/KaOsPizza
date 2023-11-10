@@ -1,4 +1,5 @@
 using AutoMapper.Extensions.ExpressionMapping;
+using KaOsPizzaBL.EmailSenderProcess;
 using KaOsPizzaBL.ImplementationOfManagers;
 using KaOsPizzaBL.InterfacesOfManagers;
 using KaOsPizzaDL.ContextInfo;
@@ -55,7 +56,7 @@ namespace KaOsPizzaPL
 
             //interfacelerin DI yasam dongusu
 
-           // builder.Services.AddScoped<IEmailManager, EmailManager>();
+            builder.Services.AddScoped<IEmailManager, EmailManager>();
 
             builder.Services.AddScoped<IFoodRepo, FoodRepo>();
             builder.Services.AddScoped<IFoodManager, FoodManager>();
