@@ -7,6 +7,7 @@ using KaOsPizzaDL.ImplementationofRepos;
 using KaOsPizzaDL.InterfaceofRepos;
 using KaOsPizzaEL.IdentityModels;
 using KaOsPizzaEL.Mappings;
+using KaOsPizzaPL.CreateDefaultData;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -94,6 +95,22 @@ namespace KaOsPizzaPL
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            //Sistem ilk ayaga kalktiginnda rolleri ekleyelim
+            //ADMIN, MEMBER, WAITINGFORACTIVATION, PASSIVE
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var serviceProvider = scope.ServiceProvider;
+
+                //    var roleManager = serviceProvider.
+                //GetRequiredService<RoleManager<AppRole>>();
+
+                CreateData c = new CreateData();
+               // c.CreateRoles(serviceProvider);
+
+
+            }
 
             app.Run();
         }
