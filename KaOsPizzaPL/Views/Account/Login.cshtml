@@ -29,6 +29,7 @@
             <strong>DİKKAT!</strong> @TempData["ResetPasswordFailMsg"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
         <br />
     }
     @if (TempData["ForgotPasswordSuccessMsg"] != null)
@@ -92,7 +93,7 @@
 
     <div class="bg-img">
         <div class="content">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger" style="color: red;"></div>
 
             <header>GİRİŞ YAP</header>
             <form class="form" asp-controller="Account" asp-action="Login" method="post">
