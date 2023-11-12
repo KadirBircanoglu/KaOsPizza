@@ -49,7 +49,7 @@ namespace KaOsPizzaPL
             builder.Services.AddAutoMapper(a =>
             {
                 a.AddExpressionMapping();
-                //a.AddProfile(typeof(Maps));
+                a.AddProfile(typeof(Maps));
                 //a.CreateMap<AppUser, ProfileViewModel>();
 
             });
