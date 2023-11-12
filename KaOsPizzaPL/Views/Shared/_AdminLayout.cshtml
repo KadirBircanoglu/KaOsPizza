@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>ADMIN</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/admin/assets/img/favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/admin/assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/admin/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/admin/assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Feather CSS -->
+    <link rel="stylesheet" href="~/admin/assets/css/feather.css">
+
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" href="~/admin/assets/plugins/datatables/datatables.min.css">
+
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" href="~/admin/assets/css/bootstrap-datetimepicker.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/admin/assets/css/style.css">
+
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <div class="header">
+
+            <!-- Logo -->
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <img src="~/admin/assets/img/logo.png" alt="Logo">
+                </a>
+                <a href="index.html" class="logo logo-small">
+                    <img src="~/admin/assets/img/logo-small.png" alt="Logo" width="30" height="30">
+                </a>
+                <!-- Sidebar Toggle -->
+                <a href="~/admin/javascript:void(0);" id="toggle_btn">
+                    <i class="feather-chevrons-left"></i>
+                </a>
+                <!-- /Sidebar Toggle -->
+                <!-- Mobile Menu Toggle -->
+                <a class="mobile_btn" id="mobile_btn">
+                    <i class="feather-chevrons-left"></i>
+                </a>
+                <!-- /Mobile Menu Toggle -->
+            </div>
+            <!-- /Logo -->
+
+        </div>
+        <!-- /Header -->
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li>
+                            <a asp-controller="Admin" asp-action="Index">Admin<span class="sr-only" data-feather="home">(current)</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="AddFood">Ürün Ekle<span class="sr-only" data-feather="clipboard">(current)</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="Reservation">Rezervasyon<span class="sr-only" data-feather="user-check">(current)</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Sidebar -->
+
+        @RenderBody()
+
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src="~/admin/assets/js/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="~/admin/assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Feather Icon JS -->
+    <script src="~/admin/assets/js/feather.min.js"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="~/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Datatables JS -->
+    <script src="~/admin/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/admin/assets/plugins/datatables/datatables.min.js"></script>
+
+    <!-- Datepicker Core JS -->
+    <script src="~/admin/assets/js/moment.min.js"></script>
+    <script src="~/admin/assets/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/admin/assets/js/script.js"></script>
+
+</body>
+</html>
