@@ -47,8 +47,15 @@ namespace KaOsPizzaPL.Controllers
         {
             try
             {
-                var allfoods = _foodManager.GetAll(x => !x.IsDeleted).Data;
-                return View(allfoods);
+                MenuPartViewModel menuPartViewModel = new MenuPartViewModel();
+                menuPartViewModel.Pizzas = _foodManager.GetAll(x => !x.IsDeleted && x.FoodTypeId == 1).Data.ToList();
+                menuPartViewModel.Pastas = _foodManager.GetAll(x => !x.IsDeleted && x.FoodTypeId == 2).Data.ToList();
+                menuPartViewModel.Burgers = _foodManager.GetAll(x => !x.IsDeleted && x.FoodTypeId == 3).Data.ToList();
+                menuPartViewModel.Drinks = _foodManager.GetAll(x => !x.IsDeleted && x.FoodTypeId == 4).Data.ToList();
+                menuPartViewModel.AllFoods = _foodManager.GetAll(x => !x.IsDeleted).Data.ToList();
+
+
+                return View(menuPartViewModel);
             }
             catch (Exception ex)
             {
