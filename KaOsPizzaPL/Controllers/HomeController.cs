@@ -1,6 +1,8 @@
 ﻿using KaOsPizzaBL.InterfacesOfManagers;
+using KaOsPizzaEL.IdentityModels;
 using KaOsPizzaEL.ViewModels;
 using KaOsPizzaPL.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,14 +15,18 @@ namespace KaOsPizzaPL.Controllers
         private readonly IFoodTypeManager _foodTypeManager;
         private readonly IServicesManager _servicesManager;
         private readonly IReservationManager _reservationManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager)
+        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _logger = logger;
             _foodManager = foodManager;
             _foodTypeManager = foodTypeManager;
             _servicesManager = servicesManager;
             _reservationManager = reservationManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -41,6 +47,19 @@ namespace KaOsPizzaPL.Controllers
         public IActionResult Contact()
         {
             return View();
+        }
+
+        public IActionResult Services()
+        {
+            var allservices = _servicesManager.GetAll(x => !x.IsDeleted).Data;
+
+            ViewBag.FootCount =_foodManager.GetAll(x=> !x.IsDeleted).Data.Count().ToString();
+
+            ViewBag.CustomerCount = _userManager.GetUsersInRoleAsync("CUSTOMER").Result.Count;
+
+            ViewBag.WorkerCount = _userManager.GetUsersInRoleAsync("ADMIN").Result.Count;
+
+            return View(allservices);
         }
 
         public IActionResult Menu()

@@ -1,8 +1,8 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Services";
     Layout = "~/Views/Shared/_PizzaLayout.cshtml";
 }
+@model ICollection<ServicesDTO>
 
 <!-- Our Sevices -->
 <section class="ftco-section ftco-services">
@@ -10,42 +10,61 @@
     <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
             <div class="col-md-7 heading-section ftco-animate text-center">
-                <h2 class="mb-4">Our Services</h2>
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                <h2 class="mb-4">Hizmetlerimiz</h2>
+                <p>Sizlere daha iyi hizmet verebilmek ve deneyiminizi daha özel kılabilmek adına, Pizza Lezzeti olarak servis standardımızı her geçen gün geliştirmeye devam ediyoruz. Misafir memnuniyeti bizim için en öncelikli konudur ve sizlere unutulmaz bir pizza ve yemek deneyimi yaşatmak için buradayız.</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 ftco-animate">
-                <div class="media d-block text-center block-6 services">
-                    <div class="icon d-flex justify-content-center align-items-center mb-5">
-                        <span class="flaticon-diet"></span>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="heading">Healthy Foods</h3>
-                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                    </div>
-                </div>
+            @{
+                foreach (var item in Model)
+                {
+                    if (item.Description != null)
+                    {
+                        <div class="col-md-4 ftco-animate">
+                            <div class="media d-block text-center block-6 services">
+                                <div class="icon d-flex justify-content-center align-items-center mb-5">
+                                    <img width="60" height="60" src="@item.FotoURL" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="heading">@item.Name</h3>
+                                    <p>@item.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+            @* <div class="col-md-4 ftco-animate">
+            <div class="media d-block text-center block-6 services">
+            <div class="icon d-flex justify-content-center align-items-center mb-5">
+            <img width="60" height="60" src="https://cdn-icons-png.flaticon.com/512/4337/4337728.png" alt="Açıklama">
+            </div>
+            <div class="media-body">
+            <h3 class="heading">Healthy Foods</h3>
+            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+            </div>
+            </div>
             </div>
             <div class="col-md-4 ftco-animate">
-                <div class="media d-block text-center block-6 services">
-                    <div class="icon d-flex justify-content-center align-items-center mb-5">
-                        <span class="flaticon-bicycle"></span>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="heading">Fastest Delivery</h3>
-                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                    </div>
-                </div>
+            <div class="media d-block text-center block-6 services">
+            <div class="icon d-flex justify-content-center align-items-center mb-5">
+            <span class="flaticon-bicycle"></span>
+            </div>
+            <div class="media-body">
+            <h3 class="heading">Fastest Delivery</h3>
+            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+            </div>
+            </div>
             </div>
             <div class="col-md-4 ftco-animate">
-                <div class="media d-block text-center block-6 services">
-                    <div class="icon d-flex justify-content-center align-items-center mb-5"><span class="flaticon-pizza-1"></span></div>
-                    <div class="media-body">
-                        <h3 class="heading">Original Recipes</h3>
-                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                    </div>
-                </div>
+            <div class="media d-block text-center block-6 services">
+            <div class="icon d-flex justify-content-center align-items-center mb-5"><span class="flaticon-pizza-1"></span></div>
+            <div class="media-body">
+            <h3 class="heading">Original Recipes</h3>
+            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
             </div>
+            </div>
+            </div> *@
         </div>
     </div>
 </section>
@@ -93,42 +112,69 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="row">
+                    @{
+                        foreach (var item in Model)
+                        {
+                            if (item.Description == null)
+                            {
+                                <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+                                    <div class="block-18 text-center">
+                                        <div class="text">
+                                            <div class="icon d-flex justify-content-center align-items-center">
+                                                <img width="40" height="40" src="@item.FotoURL" alt="">
+                                            </div>
+
+                                            <strong class="number" data-number="
+                                            @if (item.Name == "Yemek Çeşitleri")
+                                            {
+                                                @ViewBag.FootCount
+                                            }
+                                            else if (item.Name == "Müşterilerimiz")
+                                            {
+                                                @ViewBag.CustomerCount
+                                            }
+                                            else if (item.Name == "Çalışanlarımız")
+                                            {
+                                                @ViewBag.WorkerCount
+                                            }
+                                                        ">0</strong>
+                                            <span>@item.Name</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+
+                    @*
                     <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18 text-center">
-                            <div class="text">
-                                <div class="icon"><span class="flaticon-pizza-1"></span></div>
-                                <strong class="number" data-number="100">0</strong>
-                                <span>Pizza Branches</span>
-                            </div>
-                        </div>
+                    <div class="block-18 text-center">
+                    <div class="text">
+                    <div class="icon"><span class="flaticon-medal"></span></div>
+                    <strong class="number" data-number="85">0</strong>
+                    <span>Number of Awards</span>
+                    </div>
+                    </div>
                     </div>
                     <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18 text-center">
-                            <div class="text">
-                                <div class="icon"><span class="flaticon-medal"></span></div>
-                                <strong class="number" data-number="85">0</strong>
-                                <span>Number of Awards</span>
-                            </div>
-                        </div>
+                    <div class="block-18 text-center">
+                    <div class="text">
+                    <div class="icon"><span class="flaticon-laugh"></span></div>
+                    <strong class="number" data-number="10567">0</strong>
+                    <span>Happy Customer</span>
+                    </div>
+                    </div>
                     </div>
                     <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18 text-center">
-                            <div class="text">
-                                <div class="icon"><span class="flaticon-laugh"></span></div>
-                                <strong class="number" data-number="10567">0</strong>
-                                <span>Happy Customer</span>
-                            </div>
-                        </div>
+                    <div class="block-18 text-center">
+                    <div class="text">
+                    <div class="icon"><span class="flaticon-chef"></span></div>
+                    <strong class="number" data-number="900">0</strong>
+                    <span>Staff</span>
                     </div>
-                    <div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
-                        <div class="block-18 text-center">
-                            <div class="text">
-                                <div class="icon"><span class="flaticon-chef"></span></div>
-                                <strong class="number" data-number="900">0</strong>
-                                <span>Staff</span>
-                            </div>
-                        </div>
                     </div>
+                    </div> *@
                 </div>
             </div>
         </div>
