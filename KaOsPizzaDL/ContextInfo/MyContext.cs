@@ -21,6 +21,7 @@ namespace KaOsPizzaDL.ContextInfo
         public virtual DbSet<Food> FoodTable { get; set; }
         public virtual DbSet<FoodType> FoodTypeTable { get; set; }
         public virtual DbSet<Reservation> ReservationTable { get; set; }
+        public virtual DbSet<ReservationSystem> ReservationSystemTable { get; set; }
         public virtual DbSet<Services> ServicesTable { get; set; }
 
 
