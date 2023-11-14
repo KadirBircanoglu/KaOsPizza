@@ -16,6 +16,7 @@ namespace KaOsPizzaEL.IdentityModels
 
         [StringLength(50, MinimumLength = 2)]
         public string Surname { get; set; }
+        public string? PhotoLink { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime? InsertedDate { get; set; }
         public bool IsDeleted { get; set; }

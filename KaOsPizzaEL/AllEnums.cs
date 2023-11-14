@@ -14,7 +14,9 @@ namespace KaOsPizzaEL
         ADMIN = 1,
         CUSTOMER = 2,
         WAITINGFORACTIVATION = 3,
-        PASSIVE = 4
+        PASSIVE = 4,
+        CHEF = 5,
+        WAITER = 6
     }
 
 }

@@ -1,4 +1,6 @@
-﻿using KaOsPizzaBL.InterfacesOfManagers;
+﻿using AutoMapper.Extensions.ExpressionMapping;
+using KaOsPizzaBL.InterfacesOfManagers;
+using KaOsPizzaDL.ContextInfo;
 using KaOsPizzaEL.IdentityModels;
 using KaOsPizzaEL.ViewModels;
 using KaOsPizzaPL.Models;
@@ -17,6 +19,7 @@ namespace KaOsPizzaPL.Controllers
         private readonly IReservationManager _reservationManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly MyContext _myContext;
 
         public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
@@ -31,7 +34,15 @@ namespace KaOsPizzaPL.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var coverphoto1 = _foodManager.GetByCondition(x=>x.Name== "Italyan Pizza").Data;
+            ViewBag.coverphoto1_Name = coverphoto1.Name;
+            ViewBag.coverphoto1_Description = coverphoto1.Description;
+
+            var coverphoto2 = _foodManager.GetByCondition(x => x.Name == "Margherita").Data;
+            ViewBag.coverphoto2_Name = coverphoto2.Name;
+            ViewBag.coverphoto2_Description = coverphoto2.Description;
+
+            return View();  
         }
 
         public IActionResult Blog()
@@ -80,6 +91,24 @@ namespace KaOsPizzaPL.Controllers
             {
                 // log
                 return View(new List<FoodDTO>());
+            }
+        }
+
+        public IActionResult Crew()
+        {
+            try
+            {
+                UsersViewModel usersViewModel = new UsersViewModel();
+                //usersViewModel.Customers = _userManager.GetUsersInRoleAsync("CUSTOMER").Result.ToList();
+                usersViewModel.Chefs = _userManager.GetUsersInRoleAsync("CHEF").Result.ToList();
+                usersViewModel.Waiters = _userManager.GetUsersInRoleAsync("WAITER").Result.ToList();
+
+                return View(usersViewModel);
+            }
+            catch (Exception ex)
+            {
+                // log
+                return View(new List<AppUser>());
             }
         }
     }

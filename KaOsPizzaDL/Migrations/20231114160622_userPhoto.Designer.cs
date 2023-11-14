@@ -4,6 +4,7 @@ using KaOsPizzaDL.ContextInfo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KaOsPizzaDL.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20231114160622_userPhoto")]
+    partial class userPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,99 +133,6 @@ namespace KaOsPizzaDL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReservationTable");
-                });
-
-            modelBuilder.Entity("KaOsPizzaEL.Entities.ReservationSystem", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<bool>("AM0900")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AM0930")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AM1000")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AM1030")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AM1100")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AM1130")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1200")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1230")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1300")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1330")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1400")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1430")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1500")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1530")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1600")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1630")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1700")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1730")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1800")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1830")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1900")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM1930")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PM2000")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReservationSystemTable");
                 });
 
             modelBuilder.Entity("KaOsPizzaEL.Entities.Services", b =>
