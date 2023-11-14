@@ -107,7 +107,7 @@ namespace KaOsPizzaPL
                 //GetRequiredService<RoleManager<AppRole>>();
 
                 CreateData c = new CreateData();
-               // c.CreateRoles(serviceProvider);
+                //c.CreateRoles(serviceProvider);
 
 
             }

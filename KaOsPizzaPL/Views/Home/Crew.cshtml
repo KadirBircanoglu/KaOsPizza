@@ -1,0 +1,53 @@
+﻿@model UsersViewModel
+@{
+    ViewData["Title"] = "Crew";
+    Layout = "~/Views/Shared/_PizzaLayout.cshtml";
+}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section ftco-animate text-center">
+                <h2 class="mb-4">Ekibimiz</h2>
+                <p>"Lezzet Uzmanlarından Oluşan Ekibimiz"</p>
+            </div>
+        </div>
+        <h4>Şeflerimiz</h4>
+        <div class="row d-flex">
+        @foreach (var item in Model.Chefs)
+        {
+            //Bir şef
+            <div class="col-md-4 d-flex ftco-animate">
+                <div class="blog-entry align-self-stretch">
+                    <img src="@item.PhotoLink" alt="@item.Name" style="width:320px; height:400px">
+                    <div class="text py-4 d-block">
+                        <h3 class="heading mt-2"><a href="#">@item.Name @item.Surname</a></h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+
+        <h4>Garsonlarımız</h4>
+        <div class="row d-flex">
+            @foreach (var item in Model.Waiters)
+            {
+                //Bir garson
+                <div class="col-md-2 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <img src="@item.PhotoLink" alt="@item.Name" style="width:160px; height:200px">
+                        <div class="text py-4 d-block">
+                            <h3 class="heading mt-2"><a href="#">@item.Name @item.Surname</a></h3>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+    </div>
+</section>
+
+
