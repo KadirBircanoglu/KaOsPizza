@@ -8,6 +8,14 @@ namespace KaOsPizzaPL.Controllers
     public class AdminController : Controller
     {
         private readonly IFoodManager _foodManager;
+        private readonly IFoodTypeManager _foodTypeManager;
+
+        public AdminController(IFoodManager foodManager, IFoodTypeManager foodTypeManager)
+        {
+            _foodManager = foodManager;
+            _foodTypeManager = foodTypeManager;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -15,7 +23,8 @@ namespace KaOsPizzaPL.Controllers
 
         public IActionResult AddFood()
         {
-            return View();
+            
+            return View(new FoodDTO() { FoodTypes= _foodTypeManager.GetAll().Data.ToList() });
         }
 
         [HttpPost]
@@ -47,7 +56,8 @@ namespace KaOsPizzaPL.Controllers
                     FoodTypeId = model.FoodTypeId,
                     FoodMetarials = model.FoodMetarials,
                     CreatedDate = DateTime.Now,
-                    IsDeleted = false
+                    IsDeleted = false,
+                    FoodTypes = _foodTypeManager.GetAll().Data.ToList() //
                 };
                 if (!_foodManager.Add(newFood).IsSuccess)
                 {

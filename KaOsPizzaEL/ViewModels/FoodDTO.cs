@@ -13,12 +13,12 @@ namespace KaOsPizzaEL.ViewModels
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public string Name { get; set; }
-        public string? Description { get; set; }
+        public string? Description { get; set; }                                                                         
         public decimal Price { get; set; }
         public string PhotoLink { get; set; }
         public long FoodTypeId { get; set; }
         public string FoodMetarials { get; set; }
 
-        public List<FoodTypeDTO>? FoodTypes { get; set; }
+        public List<FoodTypeDTO?>? FoodTypes { get; set; }
     }
 }
