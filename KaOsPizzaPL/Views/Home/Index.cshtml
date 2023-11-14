@@ -1,4 +1,5 @@
-﻿@{
+﻿@model FoodDTO
+@{
     ViewData["Title"] = "Home Page";
 }
 <section class="home-slider owl-carousel img" style="background-image: url(/pizza-gh-pages/images/bg_1.jpg);">
@@ -8,10 +9,10 @@
             <div class="row slider-text align-items-center" data-scrollax-parent="true">
 
                 <div class="col-md-6 col-sm-12 ftco-animate">
-                    <span class="subheading">Delicious</span>
-                    <h1 class="mb-4">Italian Cuizine</h1>
-                    <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                    <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+                    <span class="subheading">Lezzetli</span>
+                    <h1 class="mb-4">@ViewBag.coverphoto1_Name</h1>
+                    <p class="mb-4 mb-md-5">@ViewBag.coverphoto1_Description</p>
+                    <p><a href="/Home/Menu" class="btn btn-primary p-3 px-xl-4 py-xl-3">Menüye Git</a></p>
                 </div>
                 <div class="col-md-6 ftco-animate">
                     <img src="~/pizza-gh-pages/images/bg_1.png" class="img-fluid" alt="">
@@ -27,10 +28,10 @@
             <div class="row slider-text align-items-center" data-scrollax-parent="true">
 
                 <div class="col-md-6 col-sm-12 order-md-last ftco-animate">
-                    <span class="subheading">Crunchy</span>
-                    <h1 class="mb-4">Italian Pizza</h1>
-                    <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                    <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+                    <span class="subheading">Gevrek</span>
+                    <h1 class="mb-4">@ViewBag.coverphoto2_Name</h1>
+                    <p class="mb-4 mb-md-5">@ViewBag.coverphoto2_Description</p>
+                    <p><a href="/Home/Menu" class="btn btn-primary p-3 px-xl-4 py-xl-3">Menüye Git</a></p>
                 </div>
                 <div class="col-md-6 ftco-animate">
                     <img src="~/pizza-gh-pages/images/bg_2.png" class="img-fluid" alt="">
@@ -46,10 +47,10 @@
             <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                 <div class="col-md-7 col-sm-12 text-center ftco-animate">
-                    <span class="subheading">Welcome</span>
-                    <h1 class="mb-4">We cooked your desired Pizza Recipe</h1>
-                    <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                    <p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</a> <a href="#" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+                    <span class="subheading">Hoşgeldiniz</span>
+                    <h1 class="mb-4">Arzu Ettiğiniz Pizza Burada</h1>
+                    <p class="mb-4 mb-md-5">İtalyan lezzetlerinin özgün yorumu: Damaklarda iz bırakan tatlar!</p>
+                    <p><a href="/Home/Menu" class="btn btn-primary p-3 px-xl-4 py-xl-3">Menüye Git</a></p>
                 </div>
 
             </div>
@@ -65,22 +66,22 @@
                     <div class="col-md-4 d-flex ftco-animate">
                         <div class="icon"><span class="icon-phone"></span></div>
                         <div class="text">
-                            <h3>000 (123) 456 7890</h3>
-                            <p>A small river named Duden flows</p>
+                            <h3>0 (216) 456 7890</h3>
+                            <p>Bir telefon uzağınızdayız...</p>
                         </div>
                     </div>
                     <div class="col-md-4 d-flex ftco-animate">
                         <div class="icon"><span class="icon-my_location"></span></div>
                         <div class="text">
-                            <h3>198 West 21th Street</h3>
-                            <p>Suite 721 New York NY 10016</p>
+                            <h3>Caddebostan, Bağdat Caddesi</h3>
+                            <p>Kadıköy/istanbul</p>
                         </div>
                     </div>
                     <div class="col-md-4 d-flex ftco-animate">
                         <div class="icon"><span class="icon-clock-o"></span></div>
                         <div class="text">
-                            <h3>Open Monday-Friday</h3>
-                            <p>8:00am - 9:00pm</p>
+                            <h3>Pazartesi-Cuma Açığız</h3>
+                            <p>08:00 - 21:00</p>
                         </div>
                     </div>
                 </div>
@@ -97,13 +98,23 @@
 </section>
 
 <section class="ftco-about d-md-flex">
-    <div class="one-half img" style="background-image: url(/pizza-gh-pages/images/about.jpg);"></div>
+    <div class="one-half img" style="background-image: url(https://www.tam1catering.com/upload/tam1catering-hizmetlerimiz-kafeterya-hizmetleri-001.jpg);"></div>
     <div class="one-half ftco-animate">
         <div class="heading-section ftco-animate ">
-            <h2 class="mb-4">Welcome to <span class="flaticon-pizza">Pizza</span> A Restaurant</h2>
+            <h2 class="mb-4">KaOs <span class="flaticon-pizza">Pizza</span>'ya Hoşgeldiniz</h2>
         </div>
         <div>
-            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
+
+            <p>Sevgili Misafirlerimiz,</p><br />
+
+            <p>Pizza dünyasının eşsiz lezzetleriyle dolu restoranımıza hoş geldiniz! Sizleri en kaliteli malzemelerle hazırlanan nefis pizzalarımızla tanıştırmak için sabırsızlanıyoruz. Her bir dilimizde lezzetin, tutkunun ve özenin izlerini bulacaksınız.</p><br />
+
+            <p>Misafirperver ekibimiz, sıcak bir atmosferde unutulmaz bir pizza deneyimi yaşatmak için burada. Kalite ve lezzet konusundaki standartlarımızı en üst seviyede tutuyoruz.</p><br />
+
+            <p>Sizleri aramızda görmek bizi mutlu ediyor. Haydi, keyifli bir pizza zamanı için sizi bekliyoruz!</p><br />
+
+            <p>Afiyet olsun!</p>
+
         </div>
     </div>
 </section>
@@ -117,25 +128,21 @@
                 <div id="map"></div>
             </div>
             <div class="col-md-6 appointment ftco-animate">
-                <h3 class="mb-3">Contact Us</h3>
-                <form action="#" class="appointment-form">
-                    <div class="d-md-flex">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="First Name">
-                        </div>
-                    </div>
-                    <div class="d-me-flex">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Last Name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="" id="" cols="30" rows="3" class="form-control" placeholder="Message"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Send" class="btn btn-primary py-3 px-4">
-                    </div>
-                </form>
+                <h3 class="mb-3">Bize Ulaşın</h3>
+                <div class="text">
+                    <h3><span class="icon-phone"></span>   0 (216) 456 7890</h3>
+                </div>
+
+                <div class="text">
+                    <h3><span class="icon-my_location"></span>   Caddebostan, Bağdat Caddesi</h3>
+                    <h5>&#160;&#160;&#160;&#160;&#160;&#160;Kadıköy/istanbul</h5>
+                </div>
+                <br />
+                <div class="text">
+                    <h3>Daha fazla ayrıcalık için;</h3>
+                    <h4><a href="/Account/Register" class="btn btn-primary p-3 px-xl-4 py-xl-3">Kayıt ol</a> & <a href="/Account/Login" class="btn btn-primary p-3 px-xl-4 py-xl-3">Giriş Yap</a></h4>
+                </div>
+                
             </div>
         </div>
     </div>

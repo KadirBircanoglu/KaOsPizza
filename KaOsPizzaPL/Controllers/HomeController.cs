@@ -34,7 +34,15 @@ namespace KaOsPizzaPL.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var coverphoto1 = _foodManager.GetByCondition(x=>x.Name== "Italyan Pizza").Data;
+            ViewBag.coverphoto1_Name = coverphoto1.Name;
+            ViewBag.coverphoto1_Description = coverphoto1.Description;
+
+            var coverphoto2 = _foodManager.GetByCondition(x => x.Name == "Margherita").Data;
+            ViewBag.coverphoto2_Name = coverphoto2.Name;
+            ViewBag.coverphoto2_Description = coverphoto2.Description;
+
+            return View();  
         }
 
         public IActionResult Blog()
