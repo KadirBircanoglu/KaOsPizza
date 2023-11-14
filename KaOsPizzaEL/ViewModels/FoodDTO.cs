@@ -18,5 +18,7 @@ namespace KaOsPizzaEL.ViewModels
         public string PhotoLink { get; set; }
         public long FoodTypeId { get; set; }
         public string FoodMetarials { get; set; }
+
+        public List<FoodTypeDTO>? FoodTypes { get; set; }
     }
 }
