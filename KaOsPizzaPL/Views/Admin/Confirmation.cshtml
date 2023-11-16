@@ -23,36 +23,38 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="datatable table table-stripped">
-                                <thead>
-                                    <tr>
-                                        <th>Müşteri Adı Soyadı</th>
-                                        <th>Rezervasyon Tarihi</th>
-                                        <th>Rezervasyon Saati</th>
-                                        <th>Kişi Sayısı</th>
-                                        <th>İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
+                            <form asp-controller="Admin" asp-action="Confirmation" method="post">
+                                <input type="hidden" id="confirmationStatus" name="confirmationStatus" />
+                                <table class="datatable table table-stripped">
+                                    <thead>
+                                        <tr>
+                                            <th>Müşteri Adı Soyadı</th>
+                                            <th>Rezervasyon Tarihi</th>
+                                            <th>Rezervasyon Saati</th>
+                                            <th>Kişi Sayısı</th>
+                                            <th>İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         @foreach (var item in Model)
                                         {
-                                        <tr>
-                                            <td>@item.AppUser.Name @item.AppUser.Surname</td>
-                                            <td>@item.DateTime.ToString("yyyy-MM-dd")</td>
-                                            <td>@item.DateTime.ToString("HH:mm")</td>
-                                            <td>@item.NumberofPeople</td>
-                                            <td>
-                                                <a href="#" class="btn btn-success btn-disable">Approve</a>
-                                                <a href="#" class="btn btn-disable">Reject</a>
-                                            </td>
+                                            <input type="hidden" name="userId" value="@item.AppUser.Id" />
+                                            <tr>
+                                                <td>@item.AppUser.Name @item.AppUser.Surname</td>
+                                                <td>@item.DateTime.ToString("yyyy-MM-dd")</td>
+                                                <td>@item.DateTime.ToString("HH:mm")</td>
+                                                <td>@item.NumberofPeople</td>
+                                                <td>
 
-                                        </tr>
+                                                    <button type="submit" class="btn btn-success btn-disable" onclick="setConfirmation(true, '@item.AppUser.Id')">Approve</button>
+                                                    <button type="submit" class="btn btn-disable" onclick="setConfirmation(false, '@item.AppUser.Id')">Reject</button>
+                                                </td>
 
+                                            </tr>
                                         }
-
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -63,3 +65,14 @@
     </div>
 </div>
 <!-- /Page Wrapper -->
+
+<script>
+    function setConfirmation(status, userId) {
+        document.getElementById('confirmationStatus').value = status;
+        document.getElementsByName('userId').value = userId;
+
+        document.forms[0].submit();
+    }
+</script>
+
+
