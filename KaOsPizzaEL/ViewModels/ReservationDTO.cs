@@ -18,6 +18,7 @@ namespace KaOsPizzaEL.ViewModels
         public string UserId { get; set; } //FK
         public bool? Confirmation { get; set; }
         public DateTime ReservationDate { get; set; }
+        public long ReservationSystemId { get; set; }
         public int NumberofPeople { get; set; }
         public AppUser? AppUser { get; set; }
         public ReservationSystem? ReservationSystem { get; set; }
