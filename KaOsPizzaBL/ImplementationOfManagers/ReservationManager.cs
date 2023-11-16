@@ -13,7 +13,7 @@ namespace KaOsPizzaBL.ImplementationOfManagers
 {
     public class ReservationManager : Manager<ReservationDTO,Reservation,long> ,IReservationManager
     {
-        public ReservationManager(IReservationRepo repo, IMapper mapper) : base(repo, mapper, new string[] { "AppUser" })
+        public ReservationManager(IReservationRepo repo, IMapper mapper) : base(repo, mapper, new string[] { "AppUser", "ReservationSystem" })
         {
         }
 

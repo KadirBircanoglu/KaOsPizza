@@ -11,11 +11,15 @@ using System.Threading.Tasks;
 
 namespace KaOsPizzaBL.ImplementationOfManagers
 {
+
     public class ReservationSystemManager : Manager<ReservationSystemDTO, ReservationSystem, long>, IReservationSystemManager
     {
         public ReservationSystemManager(IReservationSystemRepo repo, IMapper mapper) : base(repo, mapper, null)
         {
         }
 
+        }
     }
+
+
 }
