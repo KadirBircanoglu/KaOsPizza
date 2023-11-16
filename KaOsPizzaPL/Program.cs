@@ -75,6 +75,7 @@ namespace KaOsPizzaPL
             builder.Services.AddScoped<IReservationSystemManager, ReservationSystemManager>();
 
 
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 

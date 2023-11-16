@@ -39,7 +39,7 @@ namespace KaOsPizzaPL.Controllers
 
 
                 // Bu ürün menüde mevcut mu?
-                var sameFood = _foodManager.GetAll(x => x.Id == model.Id).Data;
+                var sameFood = _foodManager.GetAll(x => x.Name == model.Name).Data;
                 if (sameFood != null && sameFood.Count > 0)
                 {
                     ModelState.AddModelError("", "Bu ürün sistemde kayıtlıdır!");
@@ -50,14 +50,14 @@ namespace KaOsPizzaPL.Controllers
                 FoodDTO newFood = new FoodDTO()
                 {
                     Name = model.Name,
-                    Description = model.Description, // Nullabel??
+                    Description = model.Description, 
                     Price = model.Price,
                     PhotoLink = model.PhotoLink,
                     FoodTypeId = model.FoodTypeId,
                     FoodMetarials = model.FoodMetarials,
                     CreatedDate = DateTime.Now,
                     IsDeleted = false,
-                    FoodTypes = _foodTypeManager.GetAll().Data.ToList() //
+                    FoodTypes = _foodTypeManager.GetAll().Data.ToList()
                 };
                 if (!_foodManager.Add(newFood).IsSuccess)
                 {
@@ -65,6 +65,7 @@ namespace KaOsPizzaPL.Controllers
                     return View(model);
                 }
 
+                ViewBag.Success = "true";
 
                 return View(model);
 
@@ -74,6 +75,11 @@ namespace KaOsPizzaPL.Controllers
                 ModelState.AddModelError("", "Beklenmedik bir hata oluştu! Tekrar deneyiniz!");
                 return View(model);
             }
+        }
+
+        public  IActionResult Confirmation()
+        {
+            return View();
         }
     }
 }

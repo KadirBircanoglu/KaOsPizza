@@ -4,6 +4,7 @@ using KaOsPizzaDL.ContextInfo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KaOsPizzaDL.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20231116105308_reservation_confirmation")]
+    partial class reservation_confirmation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,16 +124,14 @@ namespace KaOsPizzaDL.Migrations
                     b.Property<int>("NumberofPeople")
                         .HasColumnType("int");
 
-                    b.Property<long>("ReservationSystemId")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReservationSystemId");
 
                     b.HasIndex("UserId");
 
@@ -146,6 +147,24 @@ namespace KaOsPizzaDL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<bool>("AM0900")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AM0930")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AM1000")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AM1030")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AM1100")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AM1130")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
                         .HasColumnOrder(2);
@@ -156,8 +175,56 @@ namespace KaOsPizzaDL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
+                    b.Property<bool>("PM1200")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1230")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1300")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1330")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1400")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1430")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1500")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1530")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1600")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1630")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1700")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1730")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1800")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1830")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1900")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM1930")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PM2000")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -441,12 +508,6 @@ namespace KaOsPizzaDL.Migrations
 
             modelBuilder.Entity("KaOsPizzaEL.Entities.Reservation", b =>
                 {
-                    b.HasOne("KaOsPizzaEL.Entities.ReservationSystem", "ReservationSystem")
-                        .WithMany()
-                        .HasForeignKey("ReservationSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("KaOsPizzaEL.IdentityModels.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -454,8 +515,6 @@ namespace KaOsPizzaDL.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
-
-                    b.Navigation("ReservationSystem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
