@@ -18,8 +18,8 @@ namespace KaOsPizzaBL.ImplementationOfManagers
         {
         }
 
-        }
+
     }
 
-
 }
+
