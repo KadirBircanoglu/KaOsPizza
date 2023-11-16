@@ -88,7 +88,7 @@ namespace KaOsPizzaPL.Controllers
 
         public IActionResult Confirmation()
         {
-            var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => x.Confirmation == null && !x.IsDeleted).Data.ToList();
+            var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => !x.IsDeleted).Data.ToList();
             var rezSys = _reservationSystemManager.GetAll(x => !x.IsDeleted).Data.ToList();
 
             foreach (var talep in rezervasyonTalepleri)
@@ -110,41 +110,43 @@ namespace KaOsPizzaPL.Controllers
 
 
         [HttpPost]
-        public IActionResult Confirmation(ReservationDTO model, int userId, bool confirmationStatus)
+        public IActionResult Confirmation(long rezerveID , bool confirmationStatus)
         {
-            // Your logic here
-            // Use the confirmationStatus variable to determine whether it was approved or rejected
-            //userId
 
-            var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => x.Confirmation == null && !x.IsDeleted).Data.ToList();
-            var rezervasyon = _reservationManager.GetbyId(userId).Data;
-
-            model.Id = rezervasyon.Id;
-            model.CreatedDate = rezervasyon.CreatedDate;
-            model.IsDeleted = rezervasyon.IsDeleted;
-            model.UserId = rezervasyon.UserId;
-            model.DateTime = rezervasyon.DateTime;
-            model.ReservationSystemId = rezervasyon.ReservationSystemId;
-            model.NumberofPeople = rezervasyon.NumberofPeople;
+            //var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => x.Confirmation == null && !x.IsDeleted).Data.ToList();
+            var rezervasyon = _reservationManager.GetbyId(rezerveID).Data;
 
 
-            if (confirmationStatus == true)
+            //model.Id = rezervasyon.Id;
+            //model.CreatedDate = rezervasyon.CreatedDate;
+            //model.IsDeleted = rezervasyon.IsDeleted;
+            //model.UserId = rezervasyon.UserId;
+            //model.DateTime = rezervasyon.DateTime;
+            //model.ReservationSystemId = rezervasyon.ReservationSystemId;
+            //model.NumberofPeople = rezervasyon.NumberofPeople;
+
+                rezervasyon.Confirmation = confirmationStatus;
+                _reservationManager.Update(rezervasyon);
+            
+
+
+
+            var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => !x.IsDeleted).Data.ToList();
+            var rezSys = _reservationSystemManager.GetAll(x => !x.IsDeleted).Data.ToList();
+
+            foreach (var talep in rezervasyonTalepleri)
             {
-                model.Confirmation = true;
-                _reservationManager.Update(model);
-            }
-            else if (confirmationStatus == false)
-            {
-                model.Confirmation = false;
-                _reservationManager.Update(model);
+                var customer = _userManager.FindByIdAsync(talep.UserId).Result;
 
+                var eslesme = rezSys.FirstOrDefault(x => x.Id == talep.ReservationSystemId);
+
+                talep.DateTime = eslesme.Date + eslesme.Time;
+
+                talep.AppUser = customer;
             }
-            return View(model);
+
+            return View(rezervasyonTalepleri);
         }
-
-
-
-
 
         public IActionResult ReservationSettings()
         {

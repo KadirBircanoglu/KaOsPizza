@@ -38,29 +38,110 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                            <input type="hidden" name="userId" value="@item.AppUser.Id" />
-                                            <tr>
-                                                <td>@item.AppUser.Name @item.AppUser.Surname</td>
-                                                <td>@item.DateTime.ToString("yyyy-MM-dd")</td>
-                                                <td>@item.DateTime.ToString("HH:mm")</td>
-                                                <td>@item.NumberofPeople</td>
-                                                <td>
+                                            if (item.Confirmation == null)
+                                            {
+                                                <tr>
+                                                    <td>@item.AppUser.Name @item.AppUser.Surname</td>
+                                                    <td>@item.DateTime.ToString("yyyy-MM-dd")</td>
+                                                    <td>@item.DateTime.ToString("HH:mm")</td>
+                                                    <td>@item.NumberofPeople</td>
+                                                    <td>
+                                                        <input type="hidden" name="rezerveID" value="@item.Id" />
 
-                                                    <button type="submit" class="btn btn-success btn-disable" onclick="setConfirmation(true, '@item.AppUser.Id')">Approve</button>
-                                                    <button type="submit" class="btn btn-disable" onclick="setConfirmation(false, '@item.AppUser.Id')">Reject</button>
-                                                </td>
+                                                        <input type="hidden" name="confirmationStatus" id="confirmationStatus_@item.AppUser.Id" />
 
-                                            </tr>
+                                                        <!-- Düğmeleri onclick ile submit işlemi yapacak şekilde düzenleyin -->
+                                                        <button type="button" class="btn btn-success btn-disable" onclick="setConfirmation(true, '@item.AppUser.Id')">Onayla</button>
+                                                        <button type="button" class="btn btn-disable" onclick="setConfirmation(false, '@item.AppUser.Id')">Reddet</button>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
                                     </tbody>
                                 </table>
                             </form>
+
+                            <script>
+                                function setConfirmation(isApproved, userId) {
+                                    var confirmationStatus = isApproved ? "Approved" : "Rejected";
+                                    // İlgili gizli input alanının değerini güncelleyin
+                                    document.getElementById("confirmationStatus_" + userId).value = confirmationStatus;
+
+                                    // Formu submit edin
+                                    document.querySelector("form").submit();
+                                }
+                            </script>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- /Datatable -->
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Rezervasyon Geçmişi</h3>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <!-- Datatable -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <input type="hidden" id="confirmationStatus" name="confirmationStatus" />
+                            <table class="datatable table table-stripped">
+                                <thead>
+                                    <tr>
+                                        <th>Müşteri Adı Soyadı</th>
+                                        <th>Rezervasyon Tarihi</th>
+                                        <th>Rezervasyon Saati</th>
+                                        <th>Kişi Sayısı</th>
+                                        <th>İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        if(item.Confirmation!=null)
+                                        {
+                                            <tr>
+                                                <td>@item.AppUser.Name @item.AppUser.Surname</td>
+                                                <td>@item.DateTime.ToString("yyyy-MM-dd")</td>
+                                                <td>@item.DateTime.ToString("HH:mm")</td>
+                                                <td>@item.NumberofPeople</td>
+                                                
+                                                    @{
+                                                        if (item.Confirmation.ToString() == "True")
+                                                        {
+                                                        <td>
+                                                        Onaylandı
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            Reddedildi
+                                                        </td>
+                                                    }
+                                                }
+                                                    
+                                                   @*  @((item.Confirmation.ToString() == "true") ? Onaylandı : @Reddedildi) *@
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
