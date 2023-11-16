@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KaOsPizzaEL.IdentityModels;
+using KaOsPizzaEL.Entities;
 
 namespace KaOsPizzaEL.ViewModels
 {
@@ -15,8 +16,9 @@ namespace KaOsPizzaEL.ViewModels
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public string UserId { get; set; } //FK
-        public DateTime ReservationDate { get; set; }
+        public long ReservationSystemId { get; set; } //fk
         public int NumberofPeople { get; set; }
         public AppUser? AppUser { get; set; }
+        public ReservationSystem? ReservationSystem { get; set; }
     }
 }

@@ -1,12 +1,16 @@
 ﻿using AutoMapper.Extensions.ExpressionMapping;
 using KaOsPizzaBL.InterfacesOfManagers;
 using KaOsPizzaDL.ContextInfo;
+using KaOsPizzaEL.Entities;
 using KaOsPizzaEL.IdentityModels;
 using KaOsPizzaEL.ViewModels;
 using KaOsPizzaPL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
+using System.Security.Claims;
 
 namespace KaOsPizzaPL.Controllers
 {
@@ -20,8 +24,9 @@ namespace KaOsPizzaPL.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly MyContext _myContext;
+        private readonly IReservationSystemManager _reservationSystemManager;
 
-        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, MyContext myContext, IReservationSystemManager reservationSystemManager)
         {
             _logger = logger;
             _foodManager = foodManager;
@@ -30,6 +35,8 @@ namespace KaOsPizzaPL.Controllers
             _reservationManager = reservationManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _myContext = myContext;
+            _reservationSystemManager = reservationSystemManager;
         }
 
         public IActionResult Index()
@@ -58,6 +65,78 @@ namespace KaOsPizzaPL.Controllers
         public IActionResult Contact()
         {
             return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Reservation()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Reservation(string rezervetarih, string secilensaat,int kisiSayisi)
+        {
+            if (secilensaat == null)
+            {
+                TempData["rezrvtarihv"] = rezervetarih;
+                var rzvrtrh = DateTime.ParseExact(rezervetarih, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+                RezervasyonViewModel rezervasyonViewModel = new RezervasyonViewModel()
+                {
+                    ReservationSystemList = _reservationSystemManager.GetAll(x => x.Date == rzvrtrh && !x.IsDeleted).Data.ToList()
+                };
+
+
+                List<long> rzvrsytemidlist = new List<long>();
+
+                foreach (var item in rezervasyonViewModel.ReservationSystemList)
+                {
+                    rzvrsytemidlist.Add(item.Id);
+                }
+
+                var reservasnContr = _reservationManager.GetAll(x => rzvrsytemidlist.Contains(x.ReservationSystemId) && !x.IsDeleted).Data.ToList();
+
+                rzvrsytemidlist.Clear();
+
+                foreach (var item in reservasnContr)
+                {
+                    rzvrsytemidlist.Add(item.ReservationSystemId);
+                }
+
+                rezervasyonViewModel.ReserveIdList = rzvrsytemidlist;
+
+                return View(rezervasyonViewModel);
+            }
+            else 
+            {
+                var rzvrtrh = DateTime.ParseExact(rezervetarih, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                TimeSpan timeee = TimeSpan.ParseExact(secilensaat, "hh\\:mm", CultureInfo.InvariantCulture);
+
+                var reserveolacak = _reservationSystemManager.GetByConditionWithoutJoin(x => x.Date == rzvrtrh && x.Time == timeee && !x.IsDeleted).Data;
+
+
+
+                ReservationDTO reservationDTO = new ReservationDTO()
+                {
+                    CreatedDate = DateTime.Now,
+                    IsDeleted = false,
+                    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    ReservationSystemId = reserveolacak.Id,
+                    NumberofPeople=kisiSayisi,
+
+                };
+
+                var result = _reservationManager.Add(reservationDTO);
+
+                
+                if(result.IsSuccess)
+                {
+                    ViewBag.Kaydedildi = "Başarılı bir şekilde rezervasyon talep ettiniz. Rezervasyonunuz onaylandığında E-postanıza mail gönderilecektir.";
+                }
+                return View(); 
+            }
         }
 
         public IActionResult Services()
