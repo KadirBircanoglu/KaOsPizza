@@ -25,91 +25,63 @@
                         <div class="card-header pt-0 mb-4">
                             <h5 class="card-title">Ürün Bilgileri</h5>
                         </div>
-                        <form action="#">
+                        <form asp-controller="Admin" asp-action="AddFood" method="post" id="myForm" onsubmit="return submitForm()">
                             <div class="form-group row">
                                 <label class="col-form-label col-md-2">Adı</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control">
+                                    <input id="name" type="text" class="form-control" asp-for="Name" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-md-2">Açıklama</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control">
+                                    <input id="description" type="text" class="form-control" asp-for="Description">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-md-2">Fiyat</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control">
+                                    <input id="price" type="number" class="form-control" asp-for="Price" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-md-2">İçindekiler</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control">
+                                    <input id="foodmetarials" type="text" class="form-control" asp-for="FoodMetarials" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-md-2">Resim Link</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control" asp-for="PhotoLink">
+                                    <input id="photolink" type="text" class="form-control" asp-for="PhotoLink">
                                 </div>
                                 <div><i>veya</i></div>
                                 <label class="col-form-label col-md-2">Resim Yükle</label>
                                 <div class="col-md-10">
-                                    <input type="file" class="form-control" asp-for="PhotoLink">
+                                    <input id="photofile" type="file" class="form-control" asp-for="PhotoLink">
                                 </div>
                             </div>
-
-
-
-
-
-
 
                             <div class="form-group row">
                                 <label class="col-form-label col-md-2">Ürün Kategorisi Seç</label>
                                 <div class="col-md-10">
-                                    <select class="form-select">
-                                       @if (Model.FoodTypes != null)
+                                    <select id="foodtypeid" class="form-select" asp-for="FoodTypeId">
+                                        @if (Model.FoodTypes != null)
                                         {
+                                            <option value="0">-- Kategoriler --</option>
+
                                             @foreach (var item in Model.FoodTypes)
                                             {
-                                                <option>@item.Name  </option>
-
+                                                <option value="@item.Id">@item.Name</option>
                                             }
+
                                         }
 
-
-    @*                                  <option>-- Kategoriler --</option>
-                                        <option>Pizza</option>
-                                        <option>Makarna</option>
-                                        <option>Burger</option>
-                                        <option>İçecek</option>*@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-2">Radio</label>
-                                <div class="col-md-10">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="radio"> Option 1
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="radio"> Option 2
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="radio"> Option 3
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                            <button class="btn btn-primary" type="submit" id="btnsave">Kaydet</button>
+
                         </form>
                     </div>
                 </div>
@@ -121,3 +93,78 @@
     </div>
 </div>
 <!-- /Page Wrapper -->
+
+@*<script>
+function submitForm() {
+    // Form elemanını seç
+    var form = document.getElementById("myForm");
+
+    // Form elemanını submit et
+    // (Bu adım ASP.NET Core'un model binding özelliğinden yararlanarak verilerin controller'a iletilmesini sağlar)
+    form.submit();
+
+    // Input ve select elemanlarını temizle
+    temizleInput("name");
+    temizleInput("description");
+    temizleInput("price");
+    temizleInput("foodmetarials");
+    temizleInput("photolink");
+    temizleInput("photofile");
+    temizleSelect("foodtypeid");
+
+    // Formun default submit işlemini engelle
+    return false;
+}
+
+function temizleInput(inputId) {
+    var inputElement = document.getElementById(inputId);
+    if (inputElement) {
+        inputElement.value = "";
+    }
+}
+
+function temizleSelect(selectId) {
+    var selectElement = document.getElementById(selectId);
+    if (selectElement) {
+        selectElement.selectedIndex = 0;
+    }
+}
+</script>
+*@
+
+
+
+<script>
+    // fotoğraf inputlarından birine tıklanınca diğeri pasif olsun
+    var linkInput = document.getElementById('photolink');
+    var fileInput = document.getElementById('photofile');
+
+    linkInput.addEventListener('input', function () {
+        fileInput.disabled = true;
+    });
+
+    fileInput.addEventListener('input', function () {
+        linkInput.disabled = true;
+    });
+
+
+    var btnSave = document.getElementById('btnsave');
+
+    btnSave.addEventListener('submit', function (event) {
+        // Form gönderildiğinde
+
+        //event.preventDefault(); // Formun sayfayı yenilemesini engelle
+
+        document.getElementById('name').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('foodmetarials').value = '';
+        document.getElementById('photolink').value = '';
+        document.getElementById('photofile').value = '';
+        document.getElementById('foodtypeid').value = '0';
+
+    });
+
+</script>
+
+

@@ -20,8 +20,9 @@ namespace KaOsPizzaPL.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly MyContext _myContext;
+        private readonly IReservationSystemManager _reservationSystemManager;
 
-        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, MyContext myContext, IReservationSystemManager reservationSystemManager)
         {
             _logger = logger;
             _foodManager = foodManager;
@@ -30,6 +31,8 @@ namespace KaOsPizzaPL.Controllers
             _reservationManager = reservationManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _myContext = myContext;
+            _reservationSystemManager = reservationSystemManager;
         }
 
         public IActionResult Index()
