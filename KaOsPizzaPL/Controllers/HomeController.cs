@@ -130,7 +130,6 @@ namespace KaOsPizzaPL.Controllers
 
                 var result = _reservationManager.Add(reservationDTO);
 
-                
                 if(result.IsSuccess)
                 {
                     ViewBag.Kaydedildi = "Başarılı bir şekilde rezervasyon talep ettiniz. Rezervasyonunuz onaylandığında E-postanıza mail gönderilecektir.";
