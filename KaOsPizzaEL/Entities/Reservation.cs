@@ -13,6 +13,7 @@ namespace KaOsPizzaEL.Entities
         public string UserId { get; set; } //FK
         public DateTime ReservationDate { get; set; }
         public int NumberofPeople { get; set; }
+        public bool? Confirmation { get; set; }
 
         [ForeignKey("UserId")]
         public virtual AppUser AppUser { get; set; }

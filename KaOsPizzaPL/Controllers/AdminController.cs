@@ -65,6 +65,7 @@ namespace KaOsPizzaPL.Controllers
                     return View(model);
                 }
 
+                ViewBag.Success = "true";
 
                 return View(model);
 
@@ -74,6 +75,11 @@ namespace KaOsPizzaPL.Controllers
                 ModelState.AddModelError("", "Beklenmedik bir hata oluştu! Tekrar deneyiniz!");
                 return View(model);
             }
+        }
+
+        public  IActionResult Confirmation()
+        {
+            return View();
         }
     }
 }

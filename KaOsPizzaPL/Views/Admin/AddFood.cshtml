@@ -93,46 +93,18 @@
     </div>
 </div>
 <!-- /Page Wrapper -->
-
-@*<script>
-function submitForm() {
-    // Form elemanını seç
-    var form = document.getElementById("myForm");
-
-    // Form elemanını submit et
-    // (Bu adım ASP.NET Core'un model binding özelliğinden yararlanarak verilerin controller'a iletilmesini sağlar)
-    form.submit();
-
-    // Input ve select elemanlarını temizle
-    temizleInput("name");
-    temizleInput("description");
-    temizleInput("price");
-    temizleInput("foodmetarials");
-    temizleInput("photolink");
-    temizleInput("photofile");
-    temizleSelect("foodtypeid");
-
-    // Formun default submit işlemini engelle
-    return false;
+@if (@ViewBag.Success == "true")
+{
+    <script>
+        document.getElementById('name').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('foodmetarials').value = '';
+        document.getElementById('photolink').value = '';
+        document.getElementById('photofile').value = '';
+        document.getElementById('foodtypeid').value = '0';
+    </script>
 }
-
-function temizleInput(inputId) {
-    var inputElement = document.getElementById(inputId);
-    if (inputElement) {
-        inputElement.value = "";
-    }
-}
-
-function temizleSelect(selectId) {
-    var selectElement = document.getElementById(selectId);
-    if (selectElement) {
-        selectElement.selectedIndex = 0;
-    }
-}
-</script>
-*@
-
-
 
 <script>
     // fotoğraf inputlarından birine tıklanınca diğeri pasif olsun
@@ -147,24 +119,12 @@ function temizleSelect(selectId) {
         linkInput.disabled = true;
     });
 
-
-    var btnSave = document.getElementById('btnsave');
-
-    btnSave.addEventListener('submit', function (event) {
-        // Form gönderildiğinde
-
-        //event.preventDefault(); // Formun sayfayı yenilemesini engelle
-
-        document.getElementById('name').value = '';
-        document.getElementById('description').value = '';
-        document.getElementById('price').value = '';
-        document.getElementById('foodmetarials').value = '';
-        document.getElementById('photolink').value = '';
-        document.getElementById('photofile').value = '';
-        document.getElementById('foodtypeid').value = '0';
-
-    });
-
 </script>
+
+
+
+
+
+
 
 
