@@ -81,5 +81,10 @@ namespace KaOsPizzaPL.Controllers
         {
             return View();
         }
+
+        public IActionResult ReservationSettings()
+        {
+            return View();
+        }
     }
 }

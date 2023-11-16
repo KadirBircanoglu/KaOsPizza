@@ -73,12 +73,17 @@
                         <li>
                             <a asp-controller="Admin" asp-action="Reservation">Rezervasyon<span class="sr-only" data-feather="user-check">(current)</span></a>
                         </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="Confirmation">Rezervasyon Talepleri<span class="sr-only" data-feather="user-check">(current)</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ReservationSettings">Rezervasyon Ayarları<span class="sr-only" data-feather="user-check">(current)</span></a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
         <!-- /Sidebar -->
-
         @RenderBody()
 
     </div>
