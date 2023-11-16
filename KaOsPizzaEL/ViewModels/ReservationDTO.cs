@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KaOsPizzaEL.IdentityModels;
+using KaOsPizzaEL.Entities;
 
 namespace KaOsPizzaEL.ViewModels
 {
@@ -19,5 +20,6 @@ namespace KaOsPizzaEL.ViewModels
         public DateTime ReservationDate { get; set; }
         public int NumberofPeople { get; set; }
         public AppUser? AppUser { get; set; }
+        public ReservationSystem? ReservationSystem { get; set; }
     }
 }

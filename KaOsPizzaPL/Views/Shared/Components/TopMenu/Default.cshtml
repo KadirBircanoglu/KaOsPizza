@@ -25,6 +25,10 @@
                 @if (!string.IsNullOrEmpty(Model?.UserName))
                 {
                     <li class="nav-item">
+                        <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Reservation">Rezervasyon<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link "> @Model.Name @Model.Surname.ToUpper() <span class="sr-only">(current)</span></a>
                     </li>
 

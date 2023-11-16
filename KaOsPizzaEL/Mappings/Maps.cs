@@ -17,8 +17,7 @@ namespace KaOsPizzaEL.Mappings
             CreateMap<FoodType, FoodTypeDTO>().ReverseMap();
             CreateMap<Reservation, ReservationDTO>().ReverseMap();
             CreateMap<Services, ServicesDTO>().ReverseMap();
-            CreateMap<ReservationSystem, ReservationSystem>().ReverseMap();
-
+            CreateMap<ReservationSystem, ReservationSystemDTO>().ReverseMap();
         }
     }
 }

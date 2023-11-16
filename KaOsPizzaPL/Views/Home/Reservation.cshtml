@@ -1,0 +1,153 @@
+﻿@model RezervasyonViewModel?
+@{
+    ViewData["Title"] = "Reservation";
+}
+
+
+<body>
+    <form asp-controller="Home" asp-action="Reservation" method="post">
+        <div style="display: grid; place-items: center;" class="container">
+            <div style="display: grid; place-items: center;" class="form-group">
+                <p>
+                <p style="color:white" for="datepicker">Tarih Seç:</p>
+                <div>
+                    <a class="btn btn-white btn-outline-white" onclick="decreaseDay()">-</a>
+                    @if (Model != null)
+                        {
+                        <input value="@TempData["rezrvtarihv"]" style="text-align:center" type="text" name="rezervetarih" id="datepicker" autocomplete="off">
+                        }
+                        else
+                        {
+                        <input value="@DateTime.Now.ToString("dd/MM/yyyy").Replace(".", "/")" style="text-align:center" type="text" name="rezervetarih" id="datepicker" autocomplete="off">
+                        }
+                        
+                    <a class="btn btn-white btn-outline-white" onclick="increaseDay()">+</a>
+                </div>
+                <p><p><p><button class="btn btn-white btn-outline-white">Rezervasyon Ara</button></p>
+            </div>
+        </div>
+
+        
+        @if (ViewBag.Kaydedildi != null)
+        {
+             <div class="container mt-5" style="display: grid; place-items: center;">
+                <h2 style="text-align:center">@ViewBag.Kaydedildi</h2>
+            </div>
+            <p></p>
+        }
+        @if (Model != null)
+    {
+        @if (Model.ReservationSystemList.Count > 0)
+        {
+        <div class="container mt-5" style="display: grid; place-items: center;">
+            <h2>Bir Saat Seçin</h2>
+
+            <div class="btn-group" id="buttonGroup" style="display: grid; place-items: center; width:50%; display: flex; flex-wrap: wrap;">
+                @foreach (var item in Model.ReservationSystemList)
+                {
+                    if (Model.ReserveIdList.Contains(item.Id))
+                    {
+                        <button type="button" class="btn btn-secondary btn-check" onclick="toggleButtons(this)" style="width: 100px; height: 40px; margin: 5px; text-decoration: line-through;" disabled>@item.Time.ToString(@"hh\:mm")</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-secondary btn-check" onclick="toggleButtons(this)" style="width: 100px; height: 40px; margin: 5px;">@item.Time.ToString(@"hh\:mm")</button>
+                    }
+                }
+                        
+                        <input name="secilensaat" type="text" id="targetInput" style="display: none;" />
+                        
+                        <div class="col text-center">
+                            <p></p>
+                            <h2>Kişi Sayısı Giriniz</h2>
+                            <p></p>
+                            <input name="kisiSayisi" type="number" min="1"/>
+                            <p></p>
+                            <button class="btn btn-white btn-outline-white">Rezervasyona Başvur</button>
+                        </div>
+
+            </div>
+        </div>
+            <p></p>
+            <p></p>
+        }
+        else
+        {
+            <h2 style="text-align: center;"> Maalesef ki seçtiğiniz gün için rezervasyon veremiyoruz :(</h2>
+            <p></p>
+            <h2 style="text-align: center;"> Lütfen başka bir gün seçin.</h2>
+            <p></p>
+            <p></p>
+        }
+    }
+    </form>
+    <!-- Bootstrap JS ve Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!-- Türkçe dil desteği için -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+
+
+        function toggleButtons(clickedButton) {
+            // Check if the button is already active
+            var isActive = clickedButton.classList.contains('active');
+
+            // Get all buttons with the class 'btn-check'
+            var buttons = document.getElementsByClassName('btn-check');
+
+            // Remove 'active' class from all buttons
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+                // Reset background color for all buttons
+                buttons[i].style.backgroundColor = '';
+            }
+
+            // If the button was not active, make it active and change the background color
+            if (!isActive) {
+                clickedButton.classList.add('active');
+                clickedButton.style.backgroundColor = 'gold';
+
+                // Get the value of the active button
+                var activeButtonValue = clickedButton.textContent; // Assuming the value is in the button's text content
+
+                // Set the value of 'targetInput' to the active button's value
+                document.getElementById('targetInput').value = activeButtonValue;
+            }
+        }
+
+
+        $(document).ready(function () {
+            $('#datepicker').datepicker({
+                format: 'dd/mm/yyyy', // Tarih formatı
+                language: 'tr', // Dil seçeneği
+                autoclose: true, // Seçim yapıldığında otomatik kapat
+                todayHighlight: true, // Bugünü vurgula
+                startDate: new Date() // Set the start date to the current date
+            });
+        });
+
+        function increaseDay() {
+            var datePickerValue = $('#datepicker').val();
+            if (datePickerValue !== "") {
+                var currentDate = $('#datepicker').datepicker('getDate');
+                currentDate.setDate(currentDate.getDate() + 1);
+                $('#datepicker').datepicker('setDate', currentDate);
+            }
+        }
+
+        function decreaseDay() {
+            var datePickerValue = $('#datepicker').val();
+            if (datePickerValue !== "") {
+                var currentDate = $('#datepicker').datepicker('getDate');
+                currentDate.setDate(currentDate.getDate() - 1);
+                $('#datepicker').datepicker('setDate', currentDate);
+            }
+        }
+    </script>
+</body>

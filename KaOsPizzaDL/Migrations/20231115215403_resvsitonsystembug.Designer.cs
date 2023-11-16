@@ -4,6 +4,7 @@ using KaOsPizzaDL.ContextInfo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KaOsPizzaDL.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20231115215403_resvsitonsystembug")]
+    partial class resvsitonsystembug
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,9 +111,6 @@ namespace KaOsPizzaDL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<bool?>("Confirmation")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
                         .HasColumnOrder(2);
@@ -121,16 +121,14 @@ namespace KaOsPizzaDL.Migrations
                     b.Property<int>("NumberofPeople")
                         .HasColumnType("int");
 
-                    b.Property<long>("ReservationSystemId")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReservationSystemId");
 
                     b.HasIndex("UserId");
 
@@ -150,14 +148,11 @@ namespace KaOsPizzaDL.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnOrder(2);
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -441,12 +436,6 @@ namespace KaOsPizzaDL.Migrations
 
             modelBuilder.Entity("KaOsPizzaEL.Entities.Reservation", b =>
                 {
-                    b.HasOne("KaOsPizzaEL.Entities.ReservationSystem", "ReservationSystem")
-                        .WithMany()
-                        .HasForeignKey("ReservationSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("KaOsPizzaEL.IdentityModels.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -454,8 +443,6 @@ namespace KaOsPizzaDL.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
-
-                    b.Navigation("ReservationSystem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

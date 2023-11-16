@@ -10,4 +10,5 @@ namespace KaOsPizzaBL.InterfacesOfManagers
     public interface IReservationSystemManager : IManager<ReservationSystemDTO,long>
     {
     }
+
 }
