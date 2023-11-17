@@ -1,4 +1,6 @@
-﻿using KaOsPizzaBL.InterfacesOfManagers;
+﻿using Humanizer;
+using KaOsPizzaBL.EmailSenderProcess;
+using KaOsPizzaBL.InterfacesOfManagers;
 using KaOsPizzaEL.Entities;
 using KaOsPizzaEL.IdentityModels;
 using KaOsPizzaEL.ViewModels;
@@ -15,14 +17,16 @@ namespace KaOsPizzaPL.Controllers
         private readonly IReservationManager _reservationManager;
         private readonly IReservationSystemManager _reservationSystemManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IEmailManager _emailManager;
 
-        public AdminController(IFoodManager foodManager, IFoodTypeManager foodTypeManager, IReservationManager reservationManager, IReservationSystemManager reservationSystemManager, UserManager<AppUser> userManager)
+        public AdminController(IFoodManager foodManager, IFoodTypeManager foodTypeManager, IReservationManager reservationManager, IReservationSystemManager reservationSystemManager, UserManager<AppUser> userManager, IEmailManager emailManager)
         {
             _foodManager = foodManager;
             _foodTypeManager = foodTypeManager;
             _reservationManager = reservationManager;
             _reservationSystemManager = reservationSystemManager;
             _userManager = userManager;
+            _emailManager = emailManager;
         }
 
         public IActionResult Index()
@@ -116,21 +120,38 @@ namespace KaOsPizzaPL.Controllers
         {
 
             //var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => x.Confirmation == null && !x.IsDeleted).Data.ToList();
-            var rezervasyon = _reservationManager.GetbyId(2).Data;
+            var rezervasyon = _reservationManager.GetbyId(rezerveID2).Data;
+            var customerId = rezervasyon.UserId;
+            var customer1 = _userManager.FindByIdAsync(customerId).Result;
 
 
-            //model.Id = rezervasyon.Id;
-            //model.CreatedDate = rezervasyon.CreatedDate;
-            //model.IsDeleted = rezervasyon.IsDeleted;
-            //model.UserId = rezervasyon.UserId;
-            //model.DateTime = rezervasyon.DateTime;
-            //model.ReservationSystemId = rezervasyon.ReservationSystemId;
-            //model.NumberofPeople = rezervasyon.NumberofPeople;
-
-            rezervasyon.Confirmation = false;
+            rezervasyon.Confirmation = confirmationStatus;
             _reservationManager.Update(rezervasyon);
 
 
+
+            string kabulMesaj;
+
+            if (confirmationStatus)
+            {
+                kabulMesaj = $"<b>Merhaba {customer1.Name} {customer1.Surname},</b><br/>" +
+          $"Rezervasyon talebiniz <i style=\"color:green;\">Kabul </i>edilmiştir! <br/>" +
+          "<br/>Afiyet olsun 🍕";
+            }
+            else
+            {
+                kabulMesaj = $"<b>Merhaba {customer1.Name} {customer1.Surname},</b><br/>" +
+                      $"Rezervasyon talebiniz <i style=\"color:red;\">Red </i>edilmiştir! <br/>" +
+                      "<br/>Detaylı bilgilendirme için bizimle iletişime geçebilirsiniz." +
+                      "<br/>0(2016)5454652";
+            }
+
+            _emailManager.SendEmailGmail(new EmailMessageModel()
+            {
+                Subject = "KaOs Pizza Rezervasyon Hk!",
+                Body = $"{kabulMesaj}",
+                To = customer1.Email, // Send email to each user with the 'ADMIN' role
+            });
 
 
             var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => !x.IsDeleted).Data.ToList();
@@ -138,13 +159,13 @@ namespace KaOsPizzaPL.Controllers
 
             foreach (var talep in rezervasyonTalepleri)
             {
-                var customer = _userManager.FindByIdAsync(talep.UserId).Result;
+                var customer2 = _userManager.FindByIdAsync(talep.UserId).Result;
 
                 var eslesme = rezSys.FirstOrDefault(x => x.Id == talep.ReservationSystemId);
 
                 talep.DateTime = eslesme.Date + eslesme.Time;
 
-                talep.AppUser = customer;
+                talep.AppUser = customer2;
             }
 
             return View(rezervasyonTalepleri);
@@ -183,7 +204,7 @@ namespace KaOsPizzaPL.Controllers
                         reservationSystemDTO.IsDeleted = false;
                         reservationSystemDTO.CreatedDate = DateTime.Now;
 
-                        erroryok=_reservationSystemManager.Add(reservationSystemDTO).IsSuccess;
+                        erroryok = _reservationSystemManager.Add(reservationSystemDTO).IsSuccess;
 
                     }
                 }
@@ -196,7 +217,7 @@ namespace KaOsPizzaPL.Controllers
                         reservationSystemDTO.IsDeleted = false;
                         reservationSystemDTO.CreatedDate = DateTime.Now;
 
-                        erroryok=_reservationSystemManager.Add(reservationSystemDTO).IsSuccess;
+                        erroryok = _reservationSystemManager.Add(reservationSystemDTO).IsSuccess;
                     }
                 }
                 else if (model.EndDate != null && model.EndClock != null)
@@ -216,7 +237,7 @@ namespace KaOsPizzaPL.Controllers
                     }
                 }
 
-                if(!erroryok) { ViewBag.error = "Bir sorun oluştu"; };
+                if (!erroryok) { ViewBag.error = "Bir sorun oluştu"; };
 
                 return View();
             }
@@ -226,7 +247,7 @@ namespace KaOsPizzaPL.Controllers
                 throw;
 
             }
-            
+
         }
     }
 }
