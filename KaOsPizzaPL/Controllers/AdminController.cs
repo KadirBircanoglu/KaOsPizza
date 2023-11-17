@@ -29,11 +29,12 @@ namespace KaOsPizzaPL.Controllers
             _emailManager = emailManager;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult AddFood()
         {
 
@@ -41,6 +42,7 @@ namespace KaOsPizzaPL.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddFood(FoodDTO model)
         {
             try
@@ -90,7 +92,7 @@ namespace KaOsPizzaPL.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Confirmation()
         {
             var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => !x.IsDeleted).Data.ToList();
@@ -112,10 +114,8 @@ namespace KaOsPizzaPL.Controllers
 
         }
 
-
-
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Confirmation(long rezerveID2, bool confirmationStatus)
         {
 
@@ -170,14 +170,14 @@ namespace KaOsPizzaPL.Controllers
 
             return View(rezervasyonTalepleri);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult ReservationSettings()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult ReservationSettings(ReservationSettingMV model)
         {
             try
