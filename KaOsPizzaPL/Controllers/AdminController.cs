@@ -112,11 +112,11 @@ namespace KaOsPizzaPL.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Confirmation(long rezerveID, bool confirmationStatus)
+        public IActionResult Confirmation(long rezerveID2, bool confirmationStatus)
         {
 
             //var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => x.Confirmation == null && !x.IsDeleted).Data.ToList();
-            var rezervasyon = _reservationManager.GetbyId(rezerveID).Data;
+            var rezervasyon = _reservationManager.GetbyId(2).Data;
 
 
             //model.Id = rezervasyon.Id;
@@ -127,7 +127,7 @@ namespace KaOsPizzaPL.Controllers
             //model.ReservationSystemId = rezervasyon.ReservationSystemId;
             //model.NumberofPeople = rezervasyon.NumberofPeople;
 
-            rezervasyon.Confirmation = confirmationStatus;
+            rezervasyon.Confirmation = false;
             _reservationManager.Update(rezervasyon);
 
 
