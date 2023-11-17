@@ -177,7 +177,20 @@ namespace KaOsPizzaPL.Controllers
 
             ViewBag.CustomerCount = _userManager.GetUsersInRoleAsync("CUSTOMER").Result.Count;
 
-            ViewBag.WorkerCount = _userManager.GetUsersInRoleAsync("ADMIN").Result.Count;
+            List<string> workers = new List<string>();
+            workers.Add("ADMIN");
+            workers.Add("CHEF");
+            workers.Add("WAITER");
+
+            int x = 0;
+            foreach (var workerRole in workers)
+            {
+                 x = x + (_userManager.GetUsersInRoleAsync(workerRole).Result.Count);
+            }
+
+
+            ViewBag.WorkerCount = x;
+            
 
             return View(allservices);
         }
