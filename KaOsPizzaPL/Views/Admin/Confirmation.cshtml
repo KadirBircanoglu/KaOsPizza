@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <form asp-controller="Admin" asp-action="Confirmation" method="post">
+                            <form id="confirmationForm" asp-controller="Admin" asp-action="Confirmation" method="post">
                                 <input type="hidden" id="confirmationStatus" name="confirmationStatus" />
                                 <table class="datatable table table-stripped">
                                     <thead>
@@ -46,31 +46,20 @@
                                                     <td>@item.DateTime.ToString("HH:mm")</td>
                                                     <td>@item.NumberofPeople</td>
                                                     <td>
-                                                        <input type="hidden" name="rezerveID" value="@item.Id" />
-
                                                         <input type="hidden" name="confirmationStatus" id="confirmationStatus_@item.AppUser.Id" />
 
                                                         <!-- Düğmeleri onclick ile submit işlemi yapacak şekilde düzenleyin -->
-                                                        <button type="button" class="btn btn-success btn-disable" onclick="setConfirmation(true, '@item.AppUser.Id')">Onayla</button>
-                                                        <button type="button" class="btn btn-disable" onclick="setConfirmation(false, '@item.AppUser.Id')">Reddet</button>
+                                                        <button type="button" class="btn btn-success btn-disable" onclick="setConfirmation(true, '@item.AppUser.Id','@item.Id')">Onayla</button>
+                                                        <button type="button" class="btn btn-disable" onclick="setConfirmation(false, '@item.AppUser.Id','@item.Id')">Reddet</button>
                                                     </td>
                                                 </tr>
                                             }
                                         }
                                     </tbody>
                                 </table>
+
+                                <input type="hidden" name="rezerveID2" id="rezerveID2" />
                             </form>
-
-                            <script>
-                                function setConfirmation(isApproved, userId) {
-                                    var confirmationStatus = isApproved ? "Approved" : "Rejected";
-                                    // İlgili gizli input alanının değerini güncelleyin
-                                    document.getElementById("confirmationStatus_" + userId).value = confirmationStatus;
-
-                                    // Formu submit edin
-                                    document.querySelector("form").submit();
-                                }
-                            </script>
 
                         </div>
                     </div>
@@ -148,12 +137,14 @@
 <!-- /Page Wrapper -->
 
 <script>
-    function setConfirmation(status, userId) {
+    function setConfirmation(status, userId, rezerveID) {
         document.getElementById('confirmationStatus').value = status;
-        document.getElementsByName('userId').value = userId;
+        document.getElementById('rezerveID2').value = rezerveID;
 
-        document.forms[0].submit();
+        // Formu güncellenmiş değerlerle gönder
+        document.getElementById('confirmationForm').submit();
     }
 </script>
 
 
+ 
