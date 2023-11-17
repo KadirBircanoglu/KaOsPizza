@@ -19,9 +19,12 @@
                 <li class="nav-item">
                     <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Crew">Ekibimiz<span class="sr-only">(current)</span></a>
                 </li>
-
-                <li class="nav-item"><a href="about.html" class="nav-link">Hakkında</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">İletişim</a></li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Home" asp-action="about">Hakkında<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Home" asp-action="contact">İletişim<span class="sr-only">(current)</span></a>
+                </li>
                 @if (!string.IsNullOrEmpty(Model?.UserName))
                 {
                     <li class="nav-item">

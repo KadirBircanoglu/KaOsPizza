@@ -1,4 +1,5 @@
 ﻿using AutoMapper.Extensions.ExpressionMapping;
+using KaOsPizzaBL.EmailSenderProcess;
 using KaOsPizzaBL.InterfacesOfManagers;
 using KaOsPizzaDL.ContextInfo;
 using KaOsPizzaEL.Entities;
@@ -8,9 +9,11 @@ using KaOsPizzaPL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Security.Claims;
+using System.Security.Policy;
 
 namespace KaOsPizzaPL.Controllers
 {
@@ -25,8 +28,9 @@ namespace KaOsPizzaPL.Controllers
         private readonly RoleManager<AppRole> _roleManager;
         private readonly MyContext _myContext;
         private readonly IReservationSystemManager _reservationSystemManager;
+        private readonly IEmailManager _emailManager;
 
-        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, MyContext myContext, IReservationSystemManager reservationSystemManager)
+        public HomeController(ILogger<HomeController> logger, IFoodManager foodManager, IFoodTypeManager foodTypeManager, IServicesManager servicesManager, IReservationManager reservationManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, MyContext myContext, IReservationSystemManager reservationSystemManager, IEmailManager emailManager)
         {
             _logger = logger;
             _foodManager = foodManager;
@@ -37,6 +41,7 @@ namespace KaOsPizzaPL.Controllers
             _roleManager = roleManager;
             _myContext = myContext;
             _reservationSystemManager = reservationSystemManager;
+            _emailManager = emailManager;
         }
 
         public IActionResult Index()
@@ -64,6 +69,32 @@ namespace KaOsPizzaPL.Controllers
 
         public IActionResult Contact()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Contact(ContactVM model)
+        {
+            if(model != null)
+            {
+                var usersWithAdminRole = _userManager.GetUsersInRoleAsync("ADMIN").Result;
+
+                var adminEmails = usersWithAdminRole.Select(user => user.Email);
+
+                // Send email to all users with the 'ADMIN' role
+                foreach (var email in adminEmails)
+                {
+                    _emailManager.SendEmailGmail(new EmailMessageModel()
+                    {
+                        Subject = "Birisi Kaos pizza ile iletişim kurmak istiyor!!",
+                        Body = $"<b>Merhaba Yetkili,</b><br/>" +
+                               $"Az önce {model.NameSurname} isimli kişi Kaos pizza ile iletişim kurmak istediğini belirtti. İçeriği aşağıdadır.<br/><br/><br/>" +
+                               $"Konu: {model.Subject} <br/> Ad & Soyad: {model.NameSurname} <br/> Numarası: {model.Number} <br/> E-Postası: {model.Email} <br/><br/>" +
+                               $"Mesajı: {model.Message}",
+                        To = email, // Send email to each user with the 'ADMIN' role
+                    });
+                }
+            }
+
             return View();
         }
 
