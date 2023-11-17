@@ -2,6 +2,7 @@
 using KaOsPizzaEL.Entities;
 using KaOsPizzaEL.IdentityModels;
 using KaOsPizzaEL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -110,7 +111,8 @@ namespace KaOsPizzaPL.Controllers
 
 
         [HttpPost]
-        public IActionResult Confirmation(long rezerveID , bool confirmationStatus)
+        [Authorize]
+        public IActionResult Confirmation(long rezerveID, bool confirmationStatus)
         {
 
             //var rezervasyonTalepleri = _reservationManager.GetAllWithoutJoin(x => x.Confirmation == null && !x.IsDeleted).Data.ToList();
@@ -125,9 +127,9 @@ namespace KaOsPizzaPL.Controllers
             //model.ReservationSystemId = rezervasyon.ReservationSystemId;
             //model.NumberofPeople = rezervasyon.NumberofPeople;
 
-                rezervasyon.Confirmation = confirmationStatus;
-                _reservationManager.Update(rezervasyon);
-            
+            rezervasyon.Confirmation = confirmationStatus;
+            _reservationManager.Update(rezervasyon);
+
 
 
 
@@ -151,6 +153,80 @@ namespace KaOsPizzaPL.Controllers
         public IActionResult ReservationSettings()
         {
             return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult ReservationSettings(ReservationSettingMV model)
+        {
+            try
+            {
+                bool erroryok = true;
+
+                ReservationSystemDTO reservationSystemDTO = new ReservationSystemDTO();
+
+                if (model.EndDate == null && model.EndClock == null)
+                {
+                    reservationSystemDTO.Date = model.StartDate;
+                    reservationSystemDTO.Time = model.StartClock;
+                    reservationSystemDTO.IsDeleted = false;
+                    reservationSystemDTO.CreatedDate = DateTime.Now;
+
+                    _reservationSystemManager.Add(reservationSystemDTO);
+                }
+                else if (model.EndDate == null && model.EndClock != null)
+                {
+                    for (var j = model.StartClock; j <= model.EndClock; j = j.Add(TimeSpan.FromMinutes(model.Interval)))
+                    {
+                        reservationSystemDTO.Date = model.StartDate;
+                        reservationSystemDTO.Time = j;
+                        reservationSystemDTO.IsDeleted = false;
+                        reservationSystemDTO.CreatedDate = DateTime.Now;
+
+                        erroryok=_reservationSystemManager.Add(reservationSystemDTO).IsSuccess;
+
+                    }
+                }
+                else if (model.EndDate != null && model.EndClock == null)
+                {
+                    for (var i = model.StartDate; i <= model.EndDate; i = i.AddDays(1))
+                    {
+                        reservationSystemDTO.Date = i;
+                        reservationSystemDTO.Time = model.StartClock;
+                        reservationSystemDTO.IsDeleted = false;
+                        reservationSystemDTO.CreatedDate = DateTime.Now;
+
+                        erroryok=_reservationSystemManager.Add(reservationSystemDTO).IsSuccess;
+                    }
+                }
+                else if (model.EndDate != null && model.EndClock != null)
+                {
+                    for (var i = model.StartDate; i <= model.EndDate; i = i.AddDays(1))
+                    {
+                        for (var j = model.StartClock; j <= model.EndClock; j = j.Add(TimeSpan.FromMinutes(model.Interval)))
+                        {
+                            reservationSystemDTO.Date = i;
+                            reservationSystemDTO.Time = j;
+                            reservationSystemDTO.IsDeleted = false;
+                            reservationSystemDTO.CreatedDate = DateTime.Now;
+
+                            erroryok = _reservationSystemManager.Add(reservationSystemDTO).IsSuccess;
+
+                        }
+                    }
+                }
+
+                if(!erroryok) { ViewBag.error = "Bir sorun oluştu"; };
+
+                return View();
+            }
+            catch (Exception)
+            {
+                return View();
+                throw;
+
+            }
+            
         }
     }
 }

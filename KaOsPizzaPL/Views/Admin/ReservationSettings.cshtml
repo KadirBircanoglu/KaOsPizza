@@ -1,12 +1,16 @@
-﻿@{
+﻿@model ReservationSettingMV
+@{
     ViewData["Title"] = "ReservationSettings";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 <!-- Page Wrapper -->
 <div class="page-wrapper">
     <div class="content container-fluid">
 
+        @if (ViewBag.error != null)
+        {
+            <h1>@ViewBag.error</h1>
+        }
         <!-- Page Header -->
         <div class="page-header">
             <div class="row align-items-center">
@@ -21,37 +25,58 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="#">
+                        <form asp-controller="Admin" asp-action="ReservationSettings" method="post">
 
-                            <div class="row">
+                            <div style="display: flex; justify-content: space-between;">
+                                <label class="toggle" style="display: flex; align-items: center;">
+                                    <input class="toggle-checkbox" type="checkbox" checked onchange="toggleDateInputs(this)">
+                                    <div class="toggle-switch"></div>
+                                    <span class="toggle-label">Tarih Aralığı kullan</span>
+                                </label>
+
+                                <label class="toggle" style="display: flex; align-items: center;">
+                                    <input class="toggle-checkbox" type="checkbox" checked onchange="toggleTimeInputs(this)">
+                                    <div class="toggle-switch"></div>
+                                    <span class="toggle-label">Dakika Aralığı Kullan</span>
+                                </label>
+                            </div>
+
+
+                            <p></p>
+
+                                    <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Başlangıç Tarihi</label>
+                                        <label asp-for="StartDate" class="col-form-label col-md-4"></label>
                                         <div class="col-md-8">
-                                            <input type="date" class="form-control form-control-lg">
+                                            <input type="date" asp-for="StartDate" class="form-control form-control-lg" />
+                                            <span asp-validation-for="StartDate" class="text-danger"></span>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Başlangıç Saati</label>
+                                        <label asp-for="EndDate" class="col-form-label col-md-4"></label>
                                         <div class="col-md-8">
-                                            <input type="time" class="form-control form-control-lg">
+                                            <input type="date" asp-for="EndDate" class="form-control form-control-lg" />
+                                            <span asp-validation-for="EndDate" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Bitiş Tarihi</label>
+                                        <label asp-for="StartClock" class="col-form-label col-md-4"></label>
                                         <div class="col-md-8">
-                                            <input type="date" class="form-control form-control-lg">
+                                            <input asp-for="StartClock" type="time" class="form-control form-control-lg" />
+                                            <span asp-validation-for="StartClock" class="text-danger"></span>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Bitiş Saati</label>
+                                        <label asp-for="EndClock" class="col-form-label col-md-4"></label>
                                         <div class="col-md-8">
-                                            <input type="time" class="form-control form-control-lg">
+                                            <input asp-for="EndClock" type="time" class="form-control form-control-lg" />
+                                            <span asp-validation-for="EndClock" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,9 +85,10 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-4">Boş Input</label>
+                                        <label asp-for="Interval" class="col-form-label col-md-4"></label>
                                         <div class="col-md-8">
-                                            <input type="text" class="form-control form-control-lg">
+                                            <input asp-for="Interval" type="number" min="10" max="300" class="form-control form-control-lg" />
+                                            <span asp-validation-for="Interval" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -85,3 +111,122 @@
     </div>
 </div>
 <!-- /Page Wrapper -->
+
+<style>
+    .toggle {
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .toggle-switch {
+        display: inline-block;
+        background: #ccc;
+        border-radius: 16px;
+        width: 58px;
+        height: 32px;
+        position: relative;
+        vertical-align: middle;
+        transition: background 0.25s;
+    }
+
+        .toggle-switch:before, .toggle-switch:after {
+            content: "";
+        }
+
+        .toggle-switch:before {
+            display: block;
+            background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: left 0.25s;
+        }
+
+    .toggle:hover .toggle-switch:before {
+        background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .toggle-checkbox:checked + .toggle-switch {
+        background: #56c080;
+    }
+
+        .toggle-checkbox:checked + .toggle-switch:before {
+            left: 30px;
+        }
+
+    .toggle-checkbox {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    .toggle-label {
+        margin-left: 5px;
+        position: relative;
+        top: 2px;
+    }
+</style>
+
+<script>
+    // Toggle durumlarına göre ilgili inputları etkin veya pasif hale getir
+    function toggleDateInputs(element) {
+        const endDateInput = document.querySelector('input[name="EndDate"]');
+        endDateInput.disabled = !element.checked;
+
+        if (!element.checked) {
+            endDateInput.value = ''; // Input içeriğini temizle
+        }
+    }
+
+    function toggleTimeInputs(element) {
+        const endClockInput = document.querySelector('input[name="EndClock"]');
+        const intervalInput = document.querySelector('input[name="Interval"]');
+        endClockInput.disabled = !element.checked;
+        intervalInput.disabled = !element.checked;
+
+        if (!element.checked) {
+            endClockInput.value = ''; // Input içeriğini temizle
+            intervalInput.value = ''; // Input içeriğini temizle
+        }
+    }
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const startDateInput = document.querySelector('input[name="StartDate"]');
+            const endDateInput = document.querySelector('input[name="EndDate"]');
+
+            // Başlangıç tarihinin bugünün tarihinden önceki tarihler seçilememesi için kontrol
+            const today = new Date();
+            const formattedToday = formatDate(today);
+            startDateInput.min = formattedToday;
+
+            startDateInput.addEventListener("change", function () {
+                endDateInput.min = startDateInput.value; // Bitiş tarihinin minimum değeri başlangıç tarihinin seçildiği tarih olacak
+
+                // Başlangıç tarihi seçildikten sonra eğer bitiş tarihi başlangıç tarihinden önceyse, başlangıç tarihi ile aynı gün olacak şekilde ayarla
+                if (endDateInput.value < startDateInput.value) {
+                    endDateInput.value = startDateInput.value;
+                }
+            });
+
+            // Bitiş tarihinin minimum değeri başlangıç tarihinin seçildiği tarih olacak
+            endDateInput.min = startDateInput.value;
+        });
+
+    function formatDate(date) {
+        const year = date.getFullYear();
+        let month = (1 + date.getMonth()).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+</script>
+
+
